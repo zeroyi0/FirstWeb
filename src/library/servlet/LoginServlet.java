@@ -44,8 +44,20 @@ public class LoginServlet extends HttpServlet {
             case "/loginCheck":
                 loginCheck(req, resp);
                 break;
+
+            case "/logout":
+                logOut(req, resp);
+                break;
         }
 
+    }
+
+    private void logOut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 设置session生命有效时间为0
+//        req.getSession().setMaxInactiveInterval(0);
+//        清空用户信息缓存
+        req.getSession().removeAttribute("ses_userInfo");
+        resp.sendRedirect("./logout.jsp");
     }
 
     private void loginCheck(HttpServletRequest req, HttpServletResponse resp) throws IOException {

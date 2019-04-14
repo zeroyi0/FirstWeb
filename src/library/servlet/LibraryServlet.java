@@ -89,6 +89,12 @@ public class LibraryServlet extends HttpServlet {
 
         Book book = new Book(bookId, bookName, author, bookNum, borrowOut, information);
         boolean updataResult = libraryService.update(book);
+        if (updataResult) {
+            out.print(Result.OK("修改信息成功"));
+            return;
+        }
+        out.print(Result.Fail("修改信息失败"));
+        return;
 
     }
         private void showAllBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

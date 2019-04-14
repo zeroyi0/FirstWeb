@@ -37,6 +37,10 @@
         text-align: left;
         margin-left: 0px;
     }
+    td select {
+       width: 173px;
+        height: 21px;
+    }
     button {
         background-color: honeydew;
         padding: 5px 15px;
@@ -67,7 +71,12 @@
         </tr>
         <tr>
             <td>职&nbsp;&nbsp;&nbsp;&nbsp;位：</td>
-            <td><input type="text" name="identity" id="identity"/></td>
+            <td>
+                <select id="identity">
+                    <option value="学生">学生</option>
+                    <option value="教师">教师</option>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
