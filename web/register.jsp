@@ -55,15 +55,15 @@
     <table>
         <tr>
             <td>学&nbsp;&nbsp;&nbsp;&nbsp;号：</td>
-            <td><input type="number" name="uid" id="uid" /></td>
+            <td><input type="text" name="uid" id="uid" /></td>
         </tr>
         <tr>
             <td>用户名：</td>
-            <td><input type="text" name="username" id="username"/></td>
+            <td><input type="text" name="username" id="username" AUTOCOMPLETE="off"/></td>
         </tr>
         <tr>
             <td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-            <td><input type="password" name="pwd1" id="password1"/></td>
+            <td><input type="password" name="pwd1" id="password1" AUTOCOMPLETE="off"/></td>
         </tr>
         <tr>
             <td>确认密码：</td>
@@ -92,7 +92,39 @@
 
 </body>
 <script>
+    function isEmpty(obj) {
+        return obj === 0 || "" == obj
+    }
     function register() {
+        var uid = $("#uid").val();
+        var userName = $("#username").val(); //键名与servlet一致？
+        var pwd1 = $("#password1").val();
+        var pwd2 = $("#password2").val();
+        var identity = $("#identity").val();
+        var mailBox = $("#mailBox").val();
+        // console.log($("#identity").val());
+
+        if (isEmpty(userName)) {
+            alert("用户名不允许为空！");
+            return;
+        }
+        // 校验学号
+        if (!(/(^[1-9]\d*$)/.test(uid))) { //输入的不是正整数
+            alert("学号输入有误！");
+            return;
+        }
+        // 校验密码
+        if (!(pwd1 == pwd2)) {
+            alert("两次密码输入不一致！");
+            return;
+        }
+        // 校验邮箱
+        var mailArr = mailBox.split("@"); // 返回字符串数组
+        if (!/^\w+@\w+\.\w+$/.test(mailBox)) {
+        // if (!(mailArr.length === 2 && mailArr[0].length >= 0 && mailArr[1].length >= 0)) { // 这里面获取字符串长度直接 .length
+            alert("邮箱输入有误，邮箱输入格式为 xx@xx.xx");
+            return;
+        }
         $.ajax({
             url: "./register",
             type: "post",
@@ -102,14 +134,16 @@
                 pwd1: $("#password1").val(),
                 pwd2: $("#password2").val(),
                 identity: $("#identity").val(),
-                mailBox: $("#mailBox").val(),
+                mailBox: $("#mailBox").val()
             },
             success: function (res) {
-                var jsParseRes = JSON.parse(res);
-                    if(jsParseRes.code == 200) {
+                var resP = JSON.parse(res);
+                    if(resP.code == 200) {
                         alert("注册成功！")
+                        return;
                     }else {
-                        alert("注册失败，用户名或学号已存在")
+                        alert(resP.errMsg);
+                        return;
                     }
             },
             error: function (res) {

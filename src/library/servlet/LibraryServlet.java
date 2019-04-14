@@ -22,7 +22,7 @@ public class LibraryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletUtil.encode(req, resp);
+//        ServletUtil.encode(req, resp);
 
         String url = req.getServletPath();
         switch (url) {
@@ -38,9 +38,14 @@ public class LibraryServlet extends HttpServlet {
             case "/libraryChange":
             changeBook(req,resp);
             break;
+            case "/libraryBorrow":
+            borrowBook(req,resp);
+            break;
+            case "/libraryReturnBk":
+            returnBook(req,resp);
+            break;
         }
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
@@ -95,9 +100,35 @@ public class LibraryServlet extends HttpServlet {
         }
         out.print(Result.Fail("修改信息失败"));
         return;
-
     }
-        private void showAllBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void borrowBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int id = parseInt(req.getParameter("id"));
+        PrintWriter out = resp.getWriter();
+        boolean borrowResult = libraryService.borrowBookById(id);
+        if (borrowResult) {
+            out.print(Result.OK("借书成功！"));
+            return;
+        }
+        out.print(Result.Fail("借书失败！"));
+        return;
+    }
+
+
+    private void returnBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int id = parseInt(req.getParameter("id"));
+        PrintWriter out = resp.getWriter();
+
+        boolean returnResult = libraryService.returnBook(id);;
+        if (returnResult) {
+            out.print(Result.OK("还书成功！"));
+            return;
+        }
+        out.print(Result.Fail("还书失败！"));
+        return;
+    }
+
+
+    private void showAllBook(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<Book> books = libraryService.showAllBook();
         req.setAttribute("req_books", books);

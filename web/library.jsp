@@ -27,7 +27,7 @@
     }
     /*标题*/
     .libraryTitle {
-        background-color: beige;
+        background-color: papayawhip;
         border: 1px solid salmon;
         font-size: 50px;
         font-weight: bold;
@@ -57,6 +57,9 @@
         font-size: 13px;
         background-color: beige;
     }
+    .flex {
+        display: flex;
+    }
 </style>
 <body>
     <div class="libraryTitle">
@@ -73,11 +76,13 @@
             <th>在架上数量</th>
             <th>借出数量</th>
             <th>详细信息</th>
-            <th style="width: 170px">改变图书信息
+            <th style="width: 240px">改变图书信息
                 <a href="./libraryAddBook.jsp" style="text-decoration: none">
-                    <button class="btn btn-xs btn-primary" style="padding:1px 2px 4px 4px;margin-right: 1px">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
+                    <c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
+                        <button class="btn btn-xs btn-primary" style="padding:1px 2px 4px 4px;margin-right: 1px">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </c:if>
                 </a>
             </th>
 
@@ -95,7 +100,10 @@
                 <td><c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
                     <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onclick="chgBook(${book.bookId})">修改</button>&nbsp;&nbsp;
                     <button class="btn btn-danger btn-xs" id="delBtn_${book.bookId}" onclick="deleteBook(${book.bookId})">删除</button></c:if>      &nbsp;
-                    <button class="btn btn-primary btn-xs" id="borrowB_${book.bookId}" onclick="borrowBook(${book.bookId})">借书</button>
+                    <%--借书--%>
+                    <button class="btn btn-primary btn-xs" id="borrowB_${book.bookId}" onclick="borrowBook(${book.bookId})">借书</button>&nbsp;&nbsp;
+                    <%--还书--%>
+                    <button class="btn btn-primary btn-xs" id="returnB_${book.bookId}" onclick="returnBook(${book.bookId})">还书</button>
                 </td>
 
 
@@ -176,13 +184,17 @@
             },
             success: function (data) {
                 console.log(data);
+                alert('删除成功'); //这里需要改成自动关闭
                 // 移除id为 #book_id  的tr
                 $("#book_" + id).remove();
-                alert('删除成功'); //这里需要改成自动关闭
+                return;
+            },
+            error: function (data) {
+                alert("系统错误，删除失败")
             }
         })
     }
-
+    // 获取图书信息
     function getBookInfo(id) {
         return {
             bookId : $("#bookId_" + id).text(),
@@ -207,6 +219,7 @@
         $("#information").val(bookInfo.information);
 
     }
+
     function changeBook() {
         var id = document.getElementById("updata").bookId;
 
@@ -252,8 +265,68 @@
     }
 
     function borrowBook(id) {
+        console.log($("#bookNum_" + id).text());
+        var bookNum = $("#bookNum_" + id).text();
+        var borrowOut = $("#borrowOut_" + id).text();
+        if (bookNum <= 0) {
+            alert("库存不足，无法借书！");
+            return;
+        }
         $.ajax({
+            url: "./libraryBorrow",
+            type: "get",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                console.log(data);
+                var dataP = JSON.parse(data);
+                if (dataP.code === 200) {
+                    alert('借书成功'); //这里需要改成自动关闭
+                    $("#bookNum_" + id).text(bookNum - 1);
+                    $("#borrowOut_" + id).text(parseInt(borrowOut) + 1);
+                    return;
+                } else {
+                    alert("借书失败");
+                    return;
+                }
+            },
+            error: function (data) {
+                alert("系统错误，借书失败");
+            }
+        })
+    }
 
+    function returnBook(id) {
+        console.log($("#borrowOut_" + id).text());
+        var borrowOut = $("#borrowOut_" + id).text();
+        var bookNum = $("#bookNum_" + id).text();
+        if (borrowOut <= 0) {
+            alert("未借阅过此书，还书失败");
+            return;
+        }
+        $.ajax({
+            url: "./libraryReturnBk",
+            type: "get",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                console.log(data);
+                var dataP = JSON.parse(data);
+                if (dataP.code === 200) {
+                    alert('还书成功'); //这里需要改成自动关闭
+                    $("#bookNum_" + id).text(parseInt(bookNum) + 1);
+                    $("#borrowOut_" + id).text(borrowOut - 1);
+                    return;
+                } else {
+                    alert("还书失败");
+                    return;
+                }
+            },
+            error: function (data) {
+                alert("系统错误，还书失败");
+            }
         })
     }
 </script>

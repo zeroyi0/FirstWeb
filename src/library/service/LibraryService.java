@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface LibraryService {
 
-    public Book findBookById(int id);
+    public boolean borrowBookById(int id);
+
+    public boolean returnBook(int id);
 
     public List<Book> showAllBook();
 

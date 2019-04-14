@@ -29,16 +29,6 @@ public class RegisterServlet extends HttpServlet {
 
         //输出流
         PrintWriter out = resp.getWriter();
-        if (isEmpty(uid) || isEmpty(userName) || isEmpty(password1) || isEmpty(password2) || isEmpty(uIdentity) || isEmpty(uMailBox)) {
-            String rgstResult = Result.Fail("必填项不允许为空！").toString();
-            out.println(rgstResult);
-            return;
-        }
-        if (!password1.equals(password2)) {
-            String rgstResult = Result.Fail("两次密码输入不一致！请重新注册").toString();
-            out.println(rgstResult);
-            return;
-        }
         // 用户注册
         User user = new User(uid, userName, password1, uIdentity, uMailBox);
         RegisterService registerService = RegisterServiceImpl.getIntance();
@@ -46,24 +36,18 @@ public class RegisterServlet extends HttpServlet {
         String rgst = null;
         switch (registerService.register(user)) {
             case RegisterStatus.REGISTER_SUCCESS:
-                rgst = Result.OK("注册成功！").toString();
-                out.println(rgst);
+                out.print(Result.OK("注册成功！"));
                 break;
             case RegisterStatus.NAME_HAS_EXIST:
-                rgst = Result.Fail("注册失败,用户名已存在").toString();
-                out.println(rgst);
+                out.print(Result.Fail("注册失败,用户名已存在"));
                 break;
             case RegisterStatus.ID_HAS_EXIST:
-                rgst = Result.Fail("注册失败,用户ID已存在").toString();
-                out.println(rgst);
+                out.print(Result.Fail("注册失败,用户ID已存在"));
                 break;
             default:
-                rgst = Result.Fail("注册失败,未知错误").toString();
-                out.println(rgst);
+                out.print(Result.Fail("注册失败,未知错误"));
                 break;
         }
     }
-    public static boolean isEmpty(Object obj) {
-        return obj == null || "".equals(obj);
-    }
+
 }

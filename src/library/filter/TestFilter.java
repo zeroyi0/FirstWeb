@@ -1,6 +1,7 @@
 package library.filter;
 
 import library.model.User;
+import library.util.ServletUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ public class TestFilter implements Filter {
         System.out.println("test过滤器诞生");
     }
 
-    private String[] fxUrls = {"/index.jsp", "/logout.jsp", "/loginCheck", "/login", "/register"};
+    private String[] fxUrls = {"/index.jsp", "/logout.jsp", "/loginCheck", "/login", "/register", "/register.jsp"};
 
     /**
      * 每次访问时对请求、响应进行过滤
@@ -30,6 +31,9 @@ public class TestFilter implements Filter {
         // 转换成HttpServlet...
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+
+        // 数据统一编码
+        ServletUtil.encode(req, resp);
 
         HttpSession session = req.getSession();
         // 查看session里面有没有用户信息

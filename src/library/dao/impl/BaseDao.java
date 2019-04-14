@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BaseDao {
 
-    public static final String URL = "jdbc:mysql://biandandan.top:3306/library?useSSL=false&serverTimezone=UTC";
+    public static final String URL = "jdbc:mysql://biandandan.top:3306/library?useUnicode=true&amp&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC";
 
     public static final String USER_NAME = "library";
 

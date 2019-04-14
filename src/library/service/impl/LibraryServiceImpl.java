@@ -3,6 +3,7 @@ package library.service.impl;
 import library.dao.LibraryDao;
 import library.dao.impl.LibraryDaoImpl;
 import library.model.Book;
+import library.model.status.LibraryStatus;
 import library.service.LibraryService;
 
 import java.util.List;
@@ -24,8 +25,31 @@ public class LibraryServiceImpl implements LibraryService {
      *  通过id查找书
      */
     @Override
-    public Book findBookById(int id) {
-        return libraryDao.findBookById(id);
+    public boolean borrowBookById(int id) {
+        Book book = libraryDao.findBookById(id);
+        if (book == null) {
+            return false;
+        }
+        book.setBookNum(book.getBookNum() - 1);
+        book.setBorrowOut(book.getBorrowOut() + 1);
+        if (update(book) == true) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean returnBook(int id) {
+        Book book = libraryDao.findBookById(id);
+        if (book == null) {
+            return false;
+        }
+        book.setBookNum(book.getBookNum() + 1);
+        book.setBorrowOut(book.getBorrowOut() - 1);
+        if (update(book) == true) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -50,7 +74,7 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Override
     public boolean delectBook(int id) {
-        Book book = findBookById(id);
+        Book book = libraryDao.findBookById(id);
         if (book == null) {
             return false;
         }
