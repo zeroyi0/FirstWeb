@@ -7,7 +7,6 @@ import library.service.impl.RegisterServiceImpl;
 import library.util.Result;
 import library.util.ServletUtil;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletUtil.encode(req, resp);
-        long uid = Long.parseLong(req.getParameter("uid"));//valueOf
+        int uid = Integer.parseInt(req.getParameter("uid"));//valueOf
         String userName = req.getParameter("userName");
         String password1 = req.getParameter("pwd1");
         String password2 = req.getParameter("pwd2");

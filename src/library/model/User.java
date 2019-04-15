@@ -11,7 +11,7 @@ public class User {
     public final static String GUEST = "guest";
 
     @TableField("u_id")
-    private Long id;
+    private int id;
 
     @TableField("u_name")
     private String userName;
@@ -27,7 +27,7 @@ public class User {
 
     public User() {}
 
-    public User(Long id, String userName, String userPwd, String identity, String mailBox) {
+    public User(int id, String userName, String userPwd, String identity, String mailBox) {
         this.id = id;
         this.userName = userName;
         this.userPwd = userPwd;
@@ -35,11 +35,11 @@ public class User {
         this.mailBox = mailBox;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

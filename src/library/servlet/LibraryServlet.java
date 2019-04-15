@@ -1,7 +1,11 @@
 package library.servlet;
 
 import library.model.Book;
+import library.model.BookInfo;
+import library.model.User;
+import library.service.BorrowBkService;
 import library.service.LibraryService;
+import library.service.impl.BorrowBkServiceImpl;
 import library.service.impl.LibraryServiceImpl;
 import library.util.Result;
 import library.util.ServletUtil;
@@ -10,8 +14,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -19,6 +27,9 @@ import static java.lang.Integer.parseInt;
 public class LibraryServlet extends HttpServlet {
 
     private LibraryService libraryService = LibraryServiceImpl.getInstance();
+    private BorrowBkService borrowBkService = BorrowBkServiceImpl.getIntance();
+    Book book;
+    BookInfo bookInfo;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,7 +70,7 @@ public class LibraryServlet extends HttpServlet {
         String information = req.getParameter("information");
         PrintWriter out = resp.getWriter(); //抛异常
 
-        Book book = new Book(bookId, bookName, author, bookNum, 0, information);
+        book = new Book(bookId, bookName, author, bookNum, 0, information);
         boolean addResult = libraryService.addBook(book);
         if (addResult) {
             out.println(Result.OK("添加成功！"));
@@ -92,7 +103,7 @@ public class LibraryServlet extends HttpServlet {
         String information = req.getParameter("information");
         PrintWriter out = resp.getWriter(); //抛异常
 
-        Book book = new Book(bookId, bookName, author, bookNum, borrowOut, information);
+        book = new Book(bookId, bookName, author, bookNum, borrowOut, information);
         boolean updataResult = libraryService.update(book);
         if (updataResult) {
             out.print(Result.OK("修改信息成功"));
@@ -107,6 +118,18 @@ public class LibraryServlet extends HttpServlet {
         boolean borrowResult = libraryService.borrowBookById(id);
         if (borrowResult) {
             out.print(Result.OK("借书成功！"));
+            book = libraryService.findBookById(id);
+            Date date = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+            // 填入参数
+            String borrowTime = df.format(date);
+            int userId = ((User)req.getSession().getAttribute("ses_userInfo")).getId();
+            int bookId = book.getBookId();
+            String bookName = book.getBookName();
+            String isReturnBook = "否";
+            String returnTime = null;
+            bookInfo = new BookInfo(borrowTime, userId, bookId, bookName, isReturnBook, returnTime);
+            borrowBkService.addBook(bookInfo);
             return;
         }
         out.print(Result.Fail("借书失败！"));

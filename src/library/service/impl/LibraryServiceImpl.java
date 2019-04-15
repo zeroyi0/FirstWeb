@@ -26,7 +26,7 @@ public class LibraryServiceImpl implements LibraryService {
      */
     @Override
     public boolean borrowBookById(int id) {
-        Book book = libraryDao.findBookById(id);
+        Book book = findBookById(id);
         if (book == null) {
             return false;
         }
@@ -36,6 +36,10 @@ public class LibraryServiceImpl implements LibraryService {
             return true;
         }
         return false;
+    }
+    // 找书
+    public Book findBookById(int id) {
+        return libraryDao.findBookById(id);
     }
 
     @Override
