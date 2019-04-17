@@ -43,13 +43,16 @@
         right: 10px;
         top: 2px;
     }
-    table {
-        margin: auto;
+    .choseFrame {
+        padding: 5px 30px;
+        font-size: 17px;
     }
+    /*table {*/
+        /*margin: auto;*/
+    /*}*/
     td,th {
         border: 1px solid darkgrey;
         width: 130px;
-        padding: 6px 12px;
         text-align: center;
     }
     button {
@@ -64,53 +67,71 @@
 <body>
     <div class="libraryTitle">
         <span id="xx">小熊书管理系统</span>
-        <span class="userInfo">你好,【${ses_userInfo.userName}】
-            <a href="./logout">注销</a>
+        <span class="userInfo">你好,【<a data-toggle="dropdown" href="#">${ses_userInfo.userName}</a>】
+            <ul class="dropdown-menu">
+                <li><a href="#">借书记录</a></li>
+                <li><a href="./logout">注销</a></li>
+            </ul>
         </span>
     </div>
-    <table class="table table-bordered table-striped" style="width: 70%">
-        <tr>
-            <th>编号</th>
-            <th>书名</th>
-            <th>作者</th>
-            <th>在架上数量</th>
-            <th>借出数量</th>
-            <th>详细信息</th>
-            <th style="width: 240px">改变图书信息
-                <a href="./libraryAddBook.jsp" style="text-decoration: none">
-                    <c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
-                        <button class="btn btn-xs btn-primary" style="padding:1px 2px 4px 4px;margin-right: 1px">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </c:if>
-                </a>
-            </th>
+    <div class="container-fluid" style="background-color: darkgrey">
+        <div class="row">
+            <div class="col-lg-1" style="background-color: beige">
+                 aa
+            </div>
+            <div class="col-lg-2" style="background-color: darksalmon">
+                <div class="choseFrame">
+                    <div>啦啦啦啦</div>
+                    <br>
+                    <div><a href="./library">全部图书信息</a></div>
+                    <div><a href="./borrowBkInfo">借阅图书信息</a></div>
+                </div>
+            </div>
+            <div class="col-lg-9" style="background-color: darkseagreen">
+                <table class="table table-bordered table-striped" style="width: 70%">
+                    <tr>
+                        <th>编号</th>
+                        <th>书名</th>
+                        <th>作者</th>
+                        <th>在架上数量</th>
+                        <th>借出数量</th>
+                        <th>详细信息</th>
+                        <th style="width: 240px">改变图书信息
+                            <a href="./libraryAddBook.jsp" style="text-decoration: none">
+                                <c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
+                                    <button class="btn btn-xs btn-primary" style="padding:1px 2px 4px 4px;margin-right: 1px">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </button>
+                                </c:if>
+                            </a>
+                        </th>
 
-        </tr>
-        <c:forEach var="book" items="${req_books}" varStatus="vsta">
-            <tr id="book_${book.bookId}"
-                    <c:if test="${vsta.index % 2 == 1}">class="warning" </c:if>>
-                <td id="bookId_${book.bookId}">${book.bookId}</td>
-                    <%--<td><c:out value="${book.name}" /></td>--%>
-                <td id="bookName_${book.bookId}">${book.bookName}</td>
-                <td id="author_${book.bookId}">${book.author}</td>
-                <td id="bookNum_${book.bookId}">${book.bookNum}</td>
-                <td id="borrowOut_${book.bookId}">${book.borrowOut}</td>
-                <td id="information_${book.bookId}">详细信息 </td>
-                <td><c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
-                    <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onclick="chgBook(${book.bookId})">修改</button>&nbsp;&nbsp;
-                    <button class="btn btn-danger btn-xs" id="delBtn_${book.bookId}" onclick="deleteBook(${book.bookId})">删除</button></c:if>      &nbsp;
-                    <%--借书--%>
-                    <button class="btn btn-primary btn-xs" id="borrowB_${book.bookId}" onclick="borrowBook(${book.bookId})">借书</button>&nbsp;&nbsp;
-                    <%--还书--%>
-                    <button class="btn btn-primary btn-xs" id="returnB_${book.bookId}" onclick="returnBook(${book.bookId})">还书</button>
-                </td>
-
-
-            </tr>
-        </c:forEach>
+                    </tr>
+                    <%--填写信息--%>
+                    <c:forEach var="book" items="${req_books}" varStatus="vsta">
+                        <tr id="book_${book.bookId}"
+                                <c:if test="${vsta.index % 2 == 1}">class="warning" </c:if>>
+                            <td id="bookId_${book.bookId}">${book.bookId}</td>
+                                <%--<td><c:out value="${book.name}" /></td>--%>
+                            <td id="bookName_${book.bookId}">${book.bookName}</td>
+                            <td id="author_${book.bookId}">${book.author}</td>
+                            <td id="bookNum_${book.bookId}">${book.bookNum}</td>
+                            <td id="borrowOut_${book.bookId}">${book.borrowOut}</td>
+                            <td id="information_${book.bookId}">详细信息 </td>
+                            <td><c:if test="${sessionScope.ses_userInfo.identity == 'admin'}">
+                                <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal" onclick="chgBook(${book.bookId})">修改</button>&nbsp;&nbsp;
+                                <button class="btn btn-danger btn-xs" id="delBtn_${book.bookId}" onclick="deleteBook(${book.bookId})">删除</button></c:if>      &nbsp;
+                                <%--借书--%>
+                                <button class="btn btn-primary btn-xs" id="borrowB_${book.bookId}" onclick="borrowBook(${book.bookId})">借书</button>&nbsp;&nbsp;
+                                <%--还书--%>
+                                <button class="btn btn-primary btn-xs" id="returnB_${book.bookId}" onclick="returnBook(${book.bookId})">还书</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
-    </table>
+    </div>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -164,13 +185,13 @@
         </div><!-- /.modal -->
     </div>
 </body>
-<%--<script src="https://cdn.bootcss.com/jquery/2.2.2/jquery.js"></script>--%>
-<script src="https://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
 <script>
+    $(function() {
+        $(".dropdown-toggle").dropdown('toggle');
+    });
     function isEmpty(obj) {
         return obj === 0 || "" == obj;
     }
-
     function deleteBook(id) {
         if (!confirm('确定删除此项？')) {
             return;
@@ -205,7 +226,6 @@
             information : $("#information_" + id).text()
         }
     }
-
     function chgBook(id) {
         var bookInfo = getBookInfo(id);
         document.getElementById("updata").bookId = id;
@@ -219,7 +239,6 @@
         $("#information").val(bookInfo.information);
 
     }
-
     function changeBook() {
         var id = document.getElementById("updata").bookId;
 
@@ -274,7 +293,7 @@
         }
         $.ajax({
             url: "./libraryBorrow",
-            type: "get",
+            type: "post",
             data: {
                 id: id
             },
@@ -306,8 +325,8 @@
             return;
         }
         $.ajax({
-            url: "./libraryReturnBk",
-            type: "get",
+            url: "./returnBk",
+            type: "post",
             data: {
                 id: id
             },

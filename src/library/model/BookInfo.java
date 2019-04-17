@@ -9,9 +9,11 @@ public class BookInfo {
     @TableField("borrowTime")
     private String borrowTime;
 
-    private int userId;
+    private Long userId;
 
-    private int bookId;
+    private String userName;
+
+    private Long bookId;
 
     private String bookName;
     // 是否归还图书
@@ -19,9 +21,11 @@ public class BookInfo {
 
     private String returnTime;
 
-    public BookInfo(String borrowTime, int userId, int bookId, String bookName, String isReturnBook, String returnTime) {
+    public BookInfo(){}
+    public BookInfo(String borrowTime, Long userId, String userName, Long bookId, String bookName, String isReturnBook, String returnTime) {
         this.borrowTime = borrowTime;
         this.userId = userId;
+        this.userName = userName;
         this.bookId = bookId;
         this.bookName = bookName;
         this.isReturnBook = isReturnBook;
@@ -36,19 +40,27 @@ public class BookInfo {
         this.borrowTime = borrowTime;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public int getBookId() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 
@@ -60,12 +72,12 @@ public class BookInfo {
         this.bookName = bookName;
     }
 
-    public String isReturnBook() {
+    public String getIsReturnBook() {
         return isReturnBook;
     }
 
-    public void setReturnBook(String returnBook) {
-        isReturnBook = returnBook;
+    public void setIsReturnBook(String isReturnBook) {
+        this.isReturnBook = isReturnBook;
     }
 
     public String getReturnTime() {

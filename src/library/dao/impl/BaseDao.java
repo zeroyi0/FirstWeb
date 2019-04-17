@@ -92,6 +92,7 @@ public class BaseDao {
                     continue;
                 }
                 String fname = field.getName();
+                // 属性注解
                 TableField fieldAnnotation = field.getAnnotation(TableField.class);
                 if (fieldAnnotation != null) {
                     fname = fieldAnnotation.value();
@@ -220,7 +221,14 @@ public class BaseDao {
                     // 开启访问权限
                     field.setAccessible(true);
                     if (getColumnValue(fname, rs) || !isStatic(field)) {
-                        field.set(obj, rs.getObject(fname));
+                        String ftypeName = field.getType().getSimpleName();
+                        if ("Long".equals(ftypeName) || "long".equals(ftypeName)) {
+                            field.set(obj, rs.getLong(fname));
+                        } else if ("Integer".equals(ftypeName) || "int".equals(ftypeName)) {
+                            field.set(obj, rs.getInt(fname));
+                        } else {
+                            field.set(obj, rs.getObject(fname));
+                        }
                     }
                 }
                 queryResult.add(obj);

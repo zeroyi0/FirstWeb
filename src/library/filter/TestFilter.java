@@ -16,7 +16,7 @@ public class TestFilter implements Filter {
         System.out.println("test过滤器诞生");
     }
 
-    private String[] fxUrls = {"/index.jsp", "/logout.jsp", "/loginCheck", "/login", "/register", "/register.jsp"};
+    private String[] fxUrls = {"/index.jsp", "/logout.jsp", "/loginCheck", "/login", "/register", "/register.jsp", "/borrowBkInfo.jsp"};
 
     /**
      * 每次访问时对请求、响应进行过滤

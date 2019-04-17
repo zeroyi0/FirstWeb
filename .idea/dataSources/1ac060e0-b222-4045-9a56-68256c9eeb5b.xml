@@ -806,40 +806,119 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="202" parent="3" name="User"/>
-    <column id="203" parent="202" name="u_id">
+    <table id="202" parent="3" name="Book"/>
+    <table id="203" parent="3" name="BorrowBkInfo"/>
+    <table id="204" parent="3" name="User"/>
+    <column id="205" parent="202" name="bookId">
+      <Position>1</Position>
+      <DataType>int(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="206" parent="202" name="bookName">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="207" parent="202" name="author">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="208" parent="202" name="bookNum">
+      <Position>4</Position>
+      <DataType>smallint(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="209" parent="202" name="borrowOut">
+      <Position>5</Position>
+      <DataType>smallint(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="210" parent="202" name="information">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="211" parent="202" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>bookId</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="212" parent="203" name="borrowTime">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="213" parent="203" name="user">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="214" parent="203" name="book">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="215" parent="203" name="isReturnBook">
+      <Position>4</Position>
+      <DataType>varchar(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;否&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="216" parent="203" name="returnTime">
+      <Position>5</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="217" parent="203" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>borrowTime</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="218" parent="204" name="u_id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="204" parent="202" name="u_name">
+    <column id="219" parent="204" name="u_name">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="205" parent="202" name="u_pwd">
+    <column id="220" parent="204" name="u_pwd">
       <Position>3</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="206" parent="202" name="u_identity">
+    <column id="221" parent="204" name="u_identity">
       <Position>4</Position>
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="207" parent="202" name="u_mailBox">
+    <column id="222" parent="204" name="u_mailBox">
       <Position>5</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="208" parent="202" name="PRIMARY">
+    <key id="223" parent="204" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>u_id</ColNames>
+      <ColNames>u_id
+u_name</ColNames>
       <Primary>1</Primary>
     </key>
   </database-model>

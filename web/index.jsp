@@ -72,16 +72,35 @@
       cursor: default;
     }
   </style>
-
+  <%
+    // 通过request获取到所有的cookie
+    Cookie[] cookies = request.getCookies();
+    String userName = "";  // 建立变量来保存cookie的值
+    String userPwd = "";
+    if (cookies.length > 0) {
+      for (Cookie cookie : cookies) {
+        // 建立cookie（键name 值value 对）
+        // 通过name来判断是否为需要获取的cookie
+        if (cookie.getName().equals("userName")) {
+            userName = cookie.getValue();
+            continue;
+        }
+        if (cookie.getName().equals("userPwd")) {
+            userPwd = cookie.getValue();
+            continue;
+        }
+      }
+    }
+  %>
   <body>
       <div class="loginFrame">
         <div class="loginTitle">用户登录</div>
         <%-- action： 表单提交地址； method：表单提交方式 --%>
         <form action="./login" method="post" class="loginText">
           <div>用户名：</div>
-            <input type="text" name="name" id="username" />
+            <input type="text" name="name" id="username" value="<%=userName%>"/>
           <div>密码：</div>
-            <input type="password" name="pwd" id="password"/>
+            <input type="password" name="pwd" id="password" value="<%=userPwd%>"/>
 
           <div class="btn-area">
             <a href="./register.jsp">
@@ -128,12 +147,11 @@
 
                   var dataParse = JSON.parse(data);
                   // console.log(dataParse);
-                  // console.log(dataParse.code);
+                  console.log(dataParse.code);
                   if (dataParse.code != 200) {
                       alert(dataParse.errMsg);
                       return;
                   } else {
-                      alert("登录成功！");
                       $("form").submit();
                   }
               }catch (e) {

@@ -26,7 +26,7 @@ public class BorrowBkDaoImpl extends BaseDao implements BorrowBkDao {
     @Override
     public boolean updateBook(BookInfo bookInfo) {
         String sql = "UPDATE BookInfo SET isReturnBook=?, returnTime=? WHERE borrowTime=?";
-        int row = super.update(sql, bookInfo.isReturnBook(),bookInfo.getReturnTime(),bookInfo.getBorrowTime());
+        int row = super.update(sql, bookInfo.getIsReturnBook(), bookInfo.getReturnTime(), bookInfo.getBorrowTime());
         if (row == 1) { // 更新成功
             return true;
         }
@@ -34,9 +34,18 @@ public class BorrowBkDaoImpl extends BaseDao implements BorrowBkDao {
     }
 
     @Override
+    public BookInfo findBkInfoByBorrowTime(String borrowTime) {
+        String sql = "SELECT * FROM BorrowBkInfo WHERE BorrowTime=?";
+        List<BookInfo> list = super.executeQuery(BookInfo.class, sql, borrowTime);
+        if (list != null) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public List quaryBookInfo() {
-        String sql = "SELECT * FROM BookInfo";
-        List list = super.executeQuery(BookInfo.class, sql);
+        List<BookInfo> list = super.executeQuery(BookInfo.class, "SELECT * FROM BorrowBkInfo ");
         if (list != null) {
             return list;
         }

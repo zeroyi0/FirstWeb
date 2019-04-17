@@ -7,17 +7,13 @@ import java.util.Objects;
 
 @Table(value = "Book") //value = 可以省略
 public class Book implements Comparable<Book> {
-    private int bookId;
+    private Long bookId;
     private String bookName;
     private String author;//作者
 
-    private int bookNum;
-    private int borrowOut;
+    private Integer bookNum;
+    private Integer borrowOut;
     private String information;
-
-    public String toString() {
-        return bookId + "@_@" + bookName + "@_@" + author +  "@_@" + bookNum + "@_@" + borrowOut + "@_@" + information;
-    }
 
     @Override
    public int compareTo(Book o) {
@@ -45,7 +41,7 @@ public class Book implements Comparable<Book> {
 
     public Book() {}
 
-    public Book(int bookId, String bookName, String author, int bookNum, int borrowOut, String information) {
+    public Book(Long bookId, String bookName, String author, int bookNum, int borrowOut, String information) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
@@ -54,11 +50,11 @@ public class Book implements Comparable<Book> {
         this.information = information;
     }
 
-    public int getBookId() {
+    public Long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 

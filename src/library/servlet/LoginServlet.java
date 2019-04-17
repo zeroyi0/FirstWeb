@@ -9,10 +9,7 @@ import library.util.ServletUtil;
 import library.util.StringUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 /*
@@ -37,12 +34,12 @@ public class LoginServlet extends HttpServlet {
 
         String url = req.getServletPath();
         switch (url) {
-            case "/login":
-                login(req, resp);
-                break;
-                
             case "/loginCheck":
                 loginCheck(req, resp);
+                break;
+
+            case "/login":
+                login(req, resp);
                 break;
 
             case "/logout":
@@ -110,6 +107,15 @@ public class LoginServlet extends HttpServlet {
         if (res == LoginStatus.LOGIN_SUCCESS) {
             User dbUserInfo = loginService.getUserInfo(userName);
             session.setAttribute("ses_userInfo", dbUserInfo);
+
+            // 建立cookie（键name 值value 对）
+            Cookie userNameCookie = new Cookie("userName", userName);
+            userNameCookie.setMaxAge(300);
+            Cookie userPwdCookie = new Cookie("userPwd", userPwd);
+            userPwdCookie.setMaxAge(300);
+            // 将cookie添加到响应对象，通过响应对象告诉浏览器要保存的cookie
+            resp.addCookie(userNameCookie);
+            resp.addCookie(userPwdCookie);
 
             // 跳转到首页
             resp.sendRedirect("./library");

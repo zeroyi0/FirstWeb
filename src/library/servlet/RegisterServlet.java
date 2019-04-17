@@ -19,7 +19,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletUtil.encode(req, resp);
-        int uid = Integer.parseInt(req.getParameter("uid"));//valueOf
+        Long uid = Long.valueOf(req.getParameter("uid"));//valueOf
         String userName = req.getParameter("userName");
         String password1 = req.getParameter("pwd1");
         String password2 = req.getParameter("pwd2");

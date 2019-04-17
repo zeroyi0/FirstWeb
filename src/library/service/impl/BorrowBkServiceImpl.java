@@ -27,6 +27,11 @@ public class BorrowBkServiceImpl implements BorrowBkService {
     }
 
     @Override
+    public BookInfo findBkInfoByBorrowTime(String borrowTime) {
+        return borrowBkDao.findBkInfoByBorrowTime(borrowTime);
+    }
+
+    @Override
     public List queryBkInfo() {
         return borrowBkDao.quaryBookInfo();
     }

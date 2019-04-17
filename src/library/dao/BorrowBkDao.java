@@ -10,5 +10,7 @@ public interface BorrowBkDao {
 
     public boolean updateBook(BookInfo bookInfo);
 
+    public BookInfo findBkInfoByBorrowTime(String borrowTime);
+
     public List quaryBookInfo();
 }

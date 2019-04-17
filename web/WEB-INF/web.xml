@@ -42,9 +42,31 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
+    <!-- 配置一个serlvet实例 -->
     <servlet>
         <servlet-name>library</servlet-name>
         <servlet-class>library.servlet.LibraryServlet</servlet-class>
+        <!-- 初始化参数 -->
+        <init-param>
+            <!-- 参数名 -->
+            <param-name>abc</param-name>
+            <!-- 参数值 -->
+            <param-value>234撒发射点士大夫</param-value>
+        </init-param>
+        <init-param>
+            <!-- 参数名 -->
+            <param-name>123</param-name>
+            <!-- 参数值 -->
+            <param-value>234撒发射点士大夫</param-value>
+        </init-param>
+        <init-param>
+            <!-- 参数名 -->
+            <param-name>1awe</param-name>
+            <!-- 参数值 -->
+            <param-value>234撒发射点士大夫</param-value>
+        </init-param>
+        <!-- 启动顺序。数字越大越靠后，没有配置则在第一个用户第一次访问时被创建 -->
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>library</servlet-name>
@@ -53,7 +75,9 @@
         <url-pattern>/libraryDelete</url-pattern>
         <url-pattern>/libraryChange</url-pattern>
         <url-pattern>/libraryBorrow</url-pattern>
-        <url-pattern>/libraryReturnBk</url-pattern>
+
+        <url-pattern>/borrowBkInfo</url-pattern>
+        <url-pattern>/returnBk</url-pattern>
     </servlet-mapping>
 
     <filter>
